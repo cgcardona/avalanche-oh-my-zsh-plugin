@@ -12,9 +12,16 @@ plugins=(... avalanche)
 
 ## Functions
 
+### Custom
+
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
 | `setAvalancheEnvironment <local|fuji|mainnet>`  | Sets the public API url per the environment remote                                                 |
+
+### Admin
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
 | `setAlias <newAlias> <endpoint>`         | Assign an API endpoint an alias, a different endpoint for the API.|
 | `aliasChain <chain> <newAlias>`  | Give a blockchain an alias, a different name that can be used any place the blockchain’s ID is used.|
 | `getChainAliases <chain>` | Returns the aliases of the chain |
@@ -25,6 +32,17 @@ plugins=(... avalanche)
 | `setLoggerLevel <loggerName> <logLevel> <displayLevel>`     | Sets log and display levels of loggers. |
 | `startCPUProfiler`     | Start profiling the CPU utilization of the node.|
 | `stopCPUProfiler`     | Stop the CPU profile that was previously started. |
+
+### Auth
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
+| ``         | |
+
+### Info
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
 | `getBlockchainID <alias>`     | Given a blockchain’s alias, get its ID.  |
 | `getNetworkID`     | Get the ID of the network this node is participating in. |
 | `getNetworkName`     | Get the name of the network this node is participating in. |
