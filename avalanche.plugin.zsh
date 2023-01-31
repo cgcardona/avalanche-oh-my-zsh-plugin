@@ -213,7 +213,7 @@ function getNodeID {
   }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/info"
 }
 
-#Get the IP of this node.
+# Get the IP of this node.
 # Usage: getNodeIP
 function getNodeIP {
   curl -X POST --data '{
