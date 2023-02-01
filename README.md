@@ -1,5 +1,7 @@
 # Avalanche oh-my-zsh Plugin
 
+![Avalanche Logo](assets/avalanche-logo.png "Avalanche Logo")
+
 The `avalanche` plugin provides many useful [functions](#functions).
 
 To use it, add `avalanche` to the plugins array in your zshrc file:
@@ -11,12 +13,6 @@ plugins=(... avalanche)
 ## Aliases
 
 ## Functions
-
-### Custom
-
-| Command                | Description                                                                                              |
-| :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| `setAvalancheEnvironment <local|fuji|mainnet>`  | Sets the public API url per the environment remote                                                 |
 
 ### Admin
 
@@ -139,3 +135,9 @@ plugins=(... avalanche)
 | `avm.getTxStatus <txID>`| Get the status of a transaction sent to the network. |
 | `avm.getUTXOs <addresses> <limit> <encoding>`| Gets the UTXOs that reference a given address. |
 | `avm.issueTx <tx> <encoding>`| Send a signed transaction to the network. |
+
+### Custom
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
+| `setAvalancheEnvironment <local|fuji|mainnet>`  | Sets the public API url per the environment remote                                                 |
