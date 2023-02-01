@@ -47,6 +47,243 @@ mainnet
 https://api.avax.network/
 ```
 
+## Examples
+
+Get and set chain alias
+
+```zsh
+admin.aliasChain qzfF3A11KzpcHkkqznEyQgupQrCNS6WV6fTUTwZpEKqhj1QE7 myBlockchainAlias
+{
+  "jsonrpc":"2.0",
+  "result":{},
+  "id":1
+}
+
+admin.getChainAliases qzfF3A11KzpcHkkqznEyQgupQrCNS6WV6fTUTwZpEKqhj1QE7
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "aliases": [
+      "X",
+      "avm",
+      "qzfF3A11KzpcHkkqznEyQgupQrCNS6WV6fTUTwZpEKqhj1QE7",
+      "myBlockchainAlias"
+    ]
+  },
+  "id": 1
+}
+```
+
+Get the full node's peers
+
+```zsh
+info.peers
+
+info.peers
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "numPeers": "4",
+    "peers": [
+      {
+        "ip": "[::1]:50452",
+        "publicIP": "127.0.0.1:9657",
+        "nodeID": "NodeID-GWPcbFJZFfZreETSoWjPimr846mXEKCtu",
+        "version": "avalanche/1.9.7",
+        "lastSent": "2023-01-31T19:55:03-08:00",
+        "lastReceived": "2023-01-31T19:55:03-08:00",
+        "observedUptime": "99",
+        "observedSubnetUptimes": {
+          "2TGBXcnwx5PqiXWiqxAKUaNSqDguXNh1mxnp82jui68hxJSZAx": "100",
+          "2hGaRX3FE1F6N6p5GGvgcPhGAzKqU1EU2mGLhmAm9gJP4AUMWL": "100",
+          "2hi9bT3cmirfQtcxa9TXfmuaqMSN1SBPp2UasY5syR29JaeVhu": "100",
+          "2iGRatsMmwDFNHxH5kXP298K8DqFUmgkeP1uRXcAvHjaka5nDJ": "100",
+          "2kAUpkozB41u39QeYKTUre9hPUNH2mxHmebKEBZxwSDJrkHr2f": "100",
+          "2w44EFw47yxdiYzuT9ChtsPAaQXmVv733JzPdx13E5s75SMobc": "100",
+          "MjcAMGb2GtwAqEUHTkMzWrZyEptnQYf2xD5BiRweaDkwSPu23": "100",
+          "hWwsQTt1mmgdvpP7cMqHpjALwAqm6dTukLsxeAfpDD8t2hEUg": "100",
+          "p433wpuXyJiDhyazPYyZMJeaoPSW76CBZ2x7wrVPLgvokotXz": "100",
+          "zMwcj6UBeGXpXpu4igMSgZAJjbJbHF7qwibLSrvcTVGGysAjz": "100"
+        },
+        "trackedSubnets": [
+          "hWwsQTt1mmgdvpP7cMqHpjALwAqm6dTukLsxeAfpDD8t2hEUg",
+          "MjcAMGb2GtwAqEUHTkMzWrZyEptnQYf2xD5BiRweaDkwSPu23",
+          "p433wpuXyJiDhyazPYyZMJeaoPSW76CBZ2x7wrVPLgvokotXz",
+          "2w44EFw47yxdiYzuT9ChtsPAaQXmVv733JzPdx13E5s75SMobc",
+          "2kAUpkozB41u39QeYKTUre9hPUNH2mxHmebKEBZxwSDJrkHr2f",
+          "2hGaRX3FE1F6N6p5GGvgcPhGAzKqU1EU2mGLhmAm9gJP4AUMWL",
+          "2TGBXcnwx5PqiXWiqxAKUaNSqDguXNh1mxnp82jui68hxJSZAx",
+          "zMwcj6UBeGXpXpu4igMSgZAJjbJbHF7qwibLSrvcTVGGysAjz",
+          "2hi9bT3cmirfQtcxa9TXfmuaqMSN1SBPp2UasY5syR29JaeVhu",
+          "2iGRatsMmwDFNHxH5kXP298K8DqFUmgkeP1uRXcAvHjaka5nDJ"
+        ],
+        "benched": []
+      },
+      ...
+    ]
+  }
+}
+```
+
+Measure your node's health
+
+```zsh
+avalanche.health
+
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "checks": {
+      "22X2bbFdnpEQKi4XvH65N4mJJiiBrP67GnqUEU4gefFAEMUkf5": {
+        "message": {
+          "consensus": {
+            "longestRunningBlock": "0s",
+            "outstandingBlocks": 0
+          },
+          "vm": {
+            "database": {
+              "v1.4.5": null
+            },
+            "health": null
+          }
+        },
+        "timestamp": "2023-01-31T19:59:27.492906-08:00",
+        "duration": 787634
+      },
+      "C": {
+        "message": {
+          "consensus": {
+            "longestRunningBlock": "0s",
+            "outstandingBlocks": 0
+          },
+          "vm": null
+        },
+        "timestamp": "2023-01-31T19:59:27.49212-08:00",
+        "duration": 50490
+      },
+      "P": {
+        "message": {
+          "consensus": {
+            "longestRunningBlock": "0s",
+            "outstandingBlocks": 0
+          },
+          "vm": {
+            "2TGBXcnwx5PqiXWiqxAKUaNSqDguXNh1mxnp82jui68hxJSZAx-percentConnected": 1,
+            "2hGaRX3FE1F6N6p5GGvgcPhGAzKqU1EU2mGLhmAm9gJP4AUMWL-percentConnected": 1,
+            "2hi9bT3cmirfQtcxa9TXfmuaqMSN1SBPp2UasY5syR29JaeVhu-percentConnected": 1,
+            "2iGRatsMmwDFNHxH5kXP298K8DqFUmgkeP1uRXcAvHjaka5nDJ-percentConnected": 1,
+            "2kAUpkozB41u39QeYKTUre9hPUNH2mxHmebKEBZxwSDJrkHr2f-percentConnected": 1,
+            "2w44EFw47yxdiYzuT9ChtsPAaQXmVv733JzPdx13E5s75SMobc-percentConnected": 1,
+            "MjcAMGb2GtwAqEUHTkMzWrZyEptnQYf2xD5BiRweaDkwSPu23-percentConnected": 1,
+            "hWwsQTt1mmgdvpP7cMqHpjALwAqm6dTukLsxeAfpDD8t2hEUg-percentConnected": 1,
+            "p433wpuXyJiDhyazPYyZMJeaoPSW76CBZ2x7wrVPLgvokotXz-percentConnected": 1,
+            "primary-percentConnected": 1,
+            "zMwcj6UBeGXpXpu4igMSgZAJjbJbHF7qwibLSrvcTVGGysAjz-percentConnected": 1
+          }
+        },
+        "timestamp": "2023-01-31T19:59:27.492418-08:00",
+        "duration": 243582
+      },
+      ...
+    }
+  }
+}
+```
+
+Get the last accepted X-Chain vertex
+
+```zsh
+index.getLastAccepted hex
+
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "id": "2SjjBSqqLy6uyn789B4f8EhhJ38BUR5Gwe9xEqWQ5mj85wKwjK",
+    "bytes": "0x000000000000000005396f3f45c17a15b4ad36f65ebcea5df66089e8495bb7e59cd25411cf31d8fc874b0000000117cc8b1578ba383544d163958822d8abd3849bb9dfabe39fcbc3e7ee8811fe2f000000070429d069188ebdc0000000000000000000000001000000013cb7d3842e8cee6a0ebd09f1fe884f6861e1b29c0000000117cc8b1578ba383544d163958822d8abd3849bb9dfabe39fcbc3e7ee8811fe2f0000000117cc8b1578ba383544d163958822d8abd3849bb9dfabe39fcbc3e7ee8811fe2f000000050429d069189e000000000001000000000000002b41564d207574696c697479206d6574686f64206275696c6442617365547820746f2073656e6420415641580000000100000009000000015c813cd6f22a8729dd1d12c180009ce5faecc9e5b36cc3ad2ef2c6fbc3ebf771777dc7b0ca4fe24e77c78f3203307147fa3ad41f3304995ad1d2708eda7d835300ce5ba017",
+    "timestamp": "2023-01-31T20:03:54.95888-08:00",
+    "encoding": "hex",
+    "index": "0"
+  },
+  "id": 1
+}
+```
+
+Get statistics about a node’s health and performance.
+
+```zsh
+avalanche.metrics
+
+avalanche_resource_tracker_disk_available_space 1.8945982464e+11
+# HELP avalanche_resource_tracker_disk_reads Disk reads (bytes/sec) tracked by the resource manager
+# TYPE avalanche_resource_tracker_disk_reads gauge
+avalanche_resource_tracker_disk_reads 0
+# HELP avalanche_resource_tracker_disk_writes Disk writes (bytes/sec) tracked by the resource manager
+# TYPE avalanche_resource_tracker_disk_writes gauge
+avalanche_resource_tracker_disk_writes 0
+# HELP avalanche_resource_tracker_processing_time Tracked processing time over all nodes. Value expected to be in [0, number of CPU cores], but can go higher due to IO bound processes and thread multiplexing
+# TYPE avalanche_resource_tracker_processing_time gauge
+avalanche_resource_tracker_processing_time 0.0004232331598367719
+```
+
+List all blockchains deployed on the Avalanche network
+
+```zsh
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "blockchains": [
+      {
+        "id": "22X2bbFdnpEQKi4XvH65N4mJJiiBrP67GnqUEU4gefFAEMUkf5",
+        "name": "DemoSubnet0",
+        "subnetID": "2TGBXcnwx5PqiXWiqxAKUaNSqDguXNh1mxnp82jui68hxJSZAx",
+        "vmID": "X86Aw6Q61dE4TsvsEiHBrYMHaEHwVdScHmJouhZuXcHgWAMTP"
+      },
+      {
+        "id": "VctwH3nkmztWbkdNXbuo6eCYndsUuemtM9ZFmEUZ5QpA1Fu8G",
+        "name": "C-Chain",
+        "subnetID": "11111111111111111111111111111111LpoYY",
+        "vmID": "mgj786NP7uDwBCcq6YwThhaN8FLyybkCa4zBWTQbNgmK6k9A6"
+      },
+      {
+        "id": "qzfF3A11KzpcHkkqznEyQgupQrCNS6WV6fTUTwZpEKqhj1QE7",
+        "name": "X-Chain",
+        "subnetID": "11111111111111111111111111111111LpoYY",
+        "vmID": "jvYyfQTxGMJLuGWa55kdP2p2zSUYsQ5Raupu4TW34ZAUBAbtq"
+      }
+    ]
+  },
+  "id": 1
+}
+```
+
+Get the status of an Atomic transactions
+
+```zsh
+avax.getAtomicTxStatus 2QouvFWUbjuySRxeX5xMbNCuAaKWfbk5FeEa2JmoF85RKLk2dD
+
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "status": "Committed"
+  },
+  "id": 1
+}
+```
+
+Get transactions status
+
+```zsh
+avm.getTxStatus 2qhaVcsUakMQEw7rRLFP94QNMX6vGNggpzBFHeBKARuHhXpcJ8
+
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "status": "Accepted"
+  },
+  "id": 1
+}
+```
+
 ## Aliases
 
 ## Functions
