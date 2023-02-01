@@ -292,70 +292,70 @@ avm.getTxStatus 2qhaVcsUakMQEw7rRLFP94QNMX6vGNggpzBFHeBKARuHhXpcJ8
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| `setAlias <newAlias> <endpoint>`         | Assign an API endpoint an alias, a different endpoint for the API.|
-| `aliasChain <chain> <newAlias>`  | Give a blockchain an alias, a different name that can be used any place the blockchain’s ID is used.|
-| `getChainAliases <chain>` | Returns the aliases of the chain |
-| `getLoggerLevel <loggerName>`        | Returns log and display levels of loggers.|
-| `loadVMs`     | Dynamically loads any virtual machines installed on the node as plugins. |
-| `lockProfile`     | Writes a profile of mutex statistics to lock.profile. |
-| `memoryProfile`     | Writes a memory profile of the to mem.profile. |
-| `setLoggerLevel <loggerName> <logLevel> <displayLevel>`     | Sets log and display levels of loggers. |
-| `startCPUProfiler`     | Start profiling the CPU utilization of the node.|
-| `stopCPUProfiler`     | Stop the CPU profile that was previously started. |
+| `admin.alias <newAlias> <endpoint>`         | Assign an API endpoint an alias, a different endpoint for the API.|
+| `admin.aliasChain <chain> <newAlias>`  | Give a blockchain an alias, a different name that can be used any place the blockchain’s ID is used.|
+| `admin.getChainAliases <chain>` | Returns the aliases of the chain |
+| `admin.getLoggerLevel <loggerName>`        | Returns log and display levels of loggers.|
+| `admin.loadVMs`     | Dynamically loads any virtual machines installed on the node as plugins. |
+| `admin.lockProfile`     | Writes a profile of mutex statistics to lock.profile. |
+| `admin.memoryProfile`     | Writes a memory profile of the to mem.profile. |
+| `admin.setLoggerLevel <loggerName> <logLevel> <displayLevel>`     | Sets log and display levels of loggers. |
+| `admin.startCPUProfiler`     | Start profiling the CPU utilization of the node.|
+| `admin.stopCPUProfiler`     | Stop the CPU profile that was previously started. |
 
 ### Auth
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| `newToken <password> <endpoints>`         | Creates a new authorization token that grants access to one or more API endpoints.|
-| `revokeToken <password> <token>`         | Revoke a previously generated token.|
-| `changePassword <oldPassword> <newPassword>`         | Change this node’s authorization token password.|
+| `auth.newToken <password> <endpoints>`         | Creates a new authorization token that grants access to one or more API endpoints.|
+| `auth.revokeToken <password> <token>`         | Revoke a previously generated token.|
+| `auth.changePassword <oldPassword> <newPassword>`         | Change this node’s authorization token password.|
 
 ### Health
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| `health`         | The node runs a set of health checks every 30 seconds, including a health check for each chain. |
+| `health.health`         | The node runs a set of health checks every 30 seconds, including a health check for each chain. |
 
 ### Index
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| `getLastAccepted <encoding>`         | Get the most recently accepted container. |
-| `getContainerByIndex <index> <encoding>`         | Get container by index. |
-| `getContainerByID <id> <encoding>`         | Get container by ID. |
-| `getContainerRange <startIndex> <numToFetch> <encoding>`         | Returns containers with indices |
-| `getIndex <id> <encoding>`         | Get a container's index. |
-| `isAccepted <id> <encoding>`         | Returns true if the container is in this index. |
+| `index.getLastAccepted <encoding>`         | Get the most recently accepted container. |
+| `index.getContainerByIndex <index> <encoding>`         | Get container by index. |
+| `index.getContainerByID <id> <encoding>`         | Get container by ID. |
+| `index.getContainerRange <startIndex> <numToFetch> <encoding>`         | Returns containers with indices |
+| `index.getIndex <id> <encoding>`         | Get a container's index. |
+| `index.isAccepted <id> <encoding>`         | Returns true if the container is in this index. |
 
 ### Info
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| `getBlockchainID <alias>`     | Given a blockchain’s alias, get its ID.  |
-| `getNetworkID`     | Get the ID of the network this node is participating in. |
-| `getNetworkName`     | Get the name of the network this node is participating in. |
-| `getNodeID`     | Get the ID of this node. |
-| `getNodeIP`     | Get the IP of this node. |
-| `getNodeVersion`     | Get the version of this node. |
-| `getVMs`     | Get the virtual machines installed on this node. |
-| `isBootstrapped <chain>`     | Check whether a given chain is done bootstrapping |
-| `peers <nodeIDs>`     | Get a description of peer connections. |
-| `getTxFee`     | Get the fees of the network. |
-| `uptime`     | Returns the network's observed uptime of this node. |
+| `info.getBlockchainID <alias>`     | Given a blockchain’s alias, get its ID.  |
+| `info.getNetworkID`     | Get the ID of the network this node is participating in. |
+| `info.getNetworkName`     | Get the name of the network this node is participating in. |
+| `info.getNodeID`     | Get the ID of this node. |
+| `info.getNodeIP`     | Get the IP of this node. |
+| `info.getNodeVersion`     | Get the version of this node. |
+| `info.getVMs`     | Get the virtual machines installed on this node. |
+| `info.isBootstrapped <chain>`     | Check whether a given chain is done bootstrapping |
+| `info.peers <nodeIDs>`     | Get a description of peer connections. |
+| `info.getTxFee`     | Get the fees of the network. |
+| `info.uptime`     | Returns the network's observed uptime of this node. |
 
 ### IPC
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| `publishBlockchain <blockchainID>`| Register a blockchain so it publishes accepted vertices to a Unix domain socket. |
-| `unpublishBlockchain <blockchainID>`| Deregister a blockchain so that it no longer publishes to a Unix domain socket. |
+| `ipcs.publishBlockchain <blockchainID>`| Register a blockchain so it publishes accepted vertices to a Unix domain socket. |
+| `ipcs.unpublishBlockchain <blockchainID>`| Deregister a blockchain so that it no longer publishes to a Unix domain socket. |
 
 ### Metrics
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| `metrics`| To get the node metrics |
+| `avalanche.metrics`| To get the node metrics |
 
 ### P-Chain
 
