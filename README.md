@@ -159,7 +159,7 @@ https://api.avax.network/
 | `avax.getAtomicTxStatus <txID>`| Get the status of an atomic transaction sent to the network. |
 | `avax.getAtomicTxStatus <txID>`| Get the status of an atomic transaction sent to the network. |
 
-### X-Chain 
+### X-Chain
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
@@ -177,7 +177,7 @@ https://api.avax.network/
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| `setAvalancheEnvironment <local|fuji|mainnet>`  | Sets the public API url per the environment remote                                                 |
+| `setAvalancheEnvironment <local> <fuji> <mainnet>`  | Sets the public API url per the environment |
 
 ## TODO
 
