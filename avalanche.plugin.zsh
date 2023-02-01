@@ -936,3 +936,82 @@ function platform.validates {
     }
   }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
 }
+
+# C-Chain
+
+# Gets a transaction by its ID. 
+# Usage: avax.getAtomicTx <txID> <encoding>
+# <txID> is the transaction ID. It should be in cb58 format.
+# <encoding> is the encoding format to use. Can only be hex when a value is provided.
+function avax.getAtomicTx {
+  local txID="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avax.getAtomicTx",
+    "params": {
+      "txID":"'$txID'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/C/avax"
+}
+
+# Gets the UTXOs that reference a given address.
+# Usage: avax.getUTXOs <addresses> <sourceChain> <address> <utxo> <encoding>
+# TODO - correctly pass in array of addresses
+# TODO - get arg defs
+function avax.getUTXOs {
+  local addresses=["$1"]
+  local sourceChain="$2"
+  local address="$3"
+  local utxo="$4"
+  local encoding="$5"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avax.getUTXOs",
+    "params": {
+      "addresses":'$addresses',
+      "sourceChain":"'$sourceChain'",
+      "startIndex":{
+        "address":"'$address'",
+        "utxo":"'$utxo'"
+      },
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/C/avax"
+}
+
+# Send a signed transaction to the network.
+# Usage: avax.issueTx <tx> <encoding>
+# <tx> is the byte representation of a transaction.
+# <encoding> specifies the encoding format for the transaction bytes. Can only be hex when a value is provided.
+function avax.issueTx {
+  local tx="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avax.issueTx",
+    "params": {
+      "tx":"'$tx'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/C/avax"
+}
+
+# Get the status of an atomic transaction sent to the network.
+# Usage: avax.getAtomicTxStatus <txID>
+# <txID> is the ID of the transaction
+function avax.getAtomicTxStatus {
+  local txID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avax.getAtomicTxStatus",
+    "params": {
+      "txID":"'$txID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/C/avax"
+}

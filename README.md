@@ -115,3 +115,12 @@ plugins=(... avalanche)
 | `platform.sampleValidators <tx> <encoding>`| Sample validators from the specified Subnet. |
 | `platform.validatedBy <blockchainID>`| Get the Subnet that validates a given blockchain. |
 | `platform.validates <subnetID>`| Get the IDs of the blockchains a Subnet validates. |
+
+### C-Chain
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
+| `avax.getAtomicTx <txID> <encoding>`| Gets a transaction by its ID.  |
+| `avax.getUTXOs <addresses> <sourceChain> <address> <utxo> <encoding>`| Gets the UTXOs that reference a given address. |
+| `avax.issueTx <tx> <encoding>`| Send a signed transaction to the network. |
+| `avax.getAtomicTxStatus <txID>`| Get the status of an atomic transaction sent to the network. |
