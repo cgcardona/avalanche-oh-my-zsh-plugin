@@ -53,6 +53,7 @@ Get and set chain alias
 
 ```zsh
 admin.aliasChain qzfF3A11KzpcHkkqznEyQgupQrCNS6WV6fTUTwZpEKqhj1QE7 myBlockchainAlias
+
 {
   "jsonrpc":"2.0",
   "result":{},
@@ -60,6 +61,7 @@ admin.aliasChain qzfF3A11KzpcHkkqznEyQgupQrCNS6WV6fTUTwZpEKqhj1QE7 myBlockchainA
 }
 
 admin.getChainAliases qzfF3A11KzpcHkkqznEyQgupQrCNS6WV6fTUTwZpEKqhj1QE7
+
 {
   "jsonrpc": "2.0",
   "result": {
@@ -79,7 +81,6 @@ Get the full node's peers
 ```zsh
 info.peers
 
-info.peers
 {
   "jsonrpc": "2.0",
   "result": {
@@ -228,6 +229,8 @@ avalanche_resource_tracker_processing_time 0.0004232331598367719
 List all blockchains deployed on the Avalanche network
 
 ```zsh
+platform.getBlockchains
+
 {
   "jsonrpc": "2.0",
   "result": {
@@ -270,7 +273,7 @@ avax.getAtomicTxStatus 2QouvFWUbjuySRxeX5xMbNCuAaKWfbk5FeEa2JmoF85RKLk2dD
 }
 ```
 
-Get transactions status
+Get a transaction's status
 
 ```zsh
 avm.getTxStatus 2qhaVcsUakMQEw7rRLFP94QNMX6vGNggpzBFHeBKARuHhXpcJ8
@@ -283,8 +286,6 @@ avm.getTxStatus 2qhaVcsUakMQEw7rRLFP94QNMX6vGNggpzBFHeBKARuHhXpcJ8
   "id": 1
 }
 ```
-
-## Aliases
 
 ## Functions
 
@@ -427,3 +428,4 @@ avm.getTxStatus 2qhaVcsUakMQEw7rRLFP94QNMX6vGNggpzBFHeBKARuHhXpcJ8
   - /ext/index/P/block
   - /ext/index/C/block
 - Document missing argument definitions
+- Add hardware wallet support for generating and signing transactions
