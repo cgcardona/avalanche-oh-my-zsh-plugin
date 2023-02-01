@@ -86,3 +86,32 @@ plugins=(... avalanche)
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
 | `metrics`| To get the node metrics |
+
+### Platform
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
+| `platform.getBalance [<addresses>]`| Get the balance of AVAX controlled by a given address. |
+| `platform.getBlock <blockID> <encoding>`| Get a block by its ID. |
+| `platform.getBlockchains`| Get all the blockchains that exist (excluding the P-Chain). |
+| `platform.getBlockchainStatus <blockchainID>`| Get the status of a blockchain. |
+| `platform.getCurrentSupply <subnetID>`| Returns an upper bound on amount of tokens that exist that can stake the requested Subnet. |
+| `platform.getCurrentValidators <subnetID> [<nodeIDs>]`| List the current validators of the given Subnet. |
+| `platform.getHeight`| Returns the height of the last accepted block. |
+| `platform.getMaxStakeAmount <subnetID> <nodeID> <startTime> <endTime>`| Returns the maximum amount of nAVAX staking to the named node during a particular time period. |
+| `platform.getMinStake <subnetID>`| Get the minimum amount of tokens required to validate the requested Subnet and the minimum amount of tokens that can be delegated. |
+| `platform.getPendingValidators <subnetID> [<nodeIDs>]`| List the validators in the pending validator set of the specified Subnet. |
+| `platform.getRewardUTXOs <txID> <encoding>`| Returns the UTXOs that were rewarded after the provided transaction's staking or delegation period ended. |
+| `platform.getStakingAssetID <subnetID>`| Retrieve an assetID for a Subnet’s staking asset. |
+| `platform.getSubnets [<ids>]`| Get info about the Subnets. |
+| `platform.getStake <ids>`| Get the amount of nAVAX staked by a set of addresses. |
+| `platform.getTimestamp`| Get the current P-Chain timestamp. |
+| `platform.getTotalStake <subnetID>`| Get the total amount of tokens staked on the requested Subnet. |
+| `platform.getTx <txID> <encoding>`| Gets a transaction by its ID. |
+| `platform.getTxStatus <txID>`| Gets a transaction’s status by its ID.  |
+| `platform.getUTXOs <addresses> <limit> <encoding>`| Gets the UTXOs that reference a given set of addresses. |
+| `platform.getValidatorsAt <height> <subnetID>`| Get the validators and their weights of a Subnet or the Primary Network at a given P-Chain height. |
+| `platform.issueTx <tx> <encoding>`| Issue a transaction to the Platform Chain. |
+| `platform.sampleValidators <tx> <encoding>`| Sample validators from the specified Subnet. |
+| `platform.validatedBy <blockchainID>`| Get the Subnet that validates a given blockchain. |
+| `platform.validates <subnetID>`| Get the IDs of the blockchains a Subnet validates. |

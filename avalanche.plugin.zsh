@@ -528,8 +528,411 @@ function unpublishBlockchain {
 # Metrics
 # The API allows clients to get statistics about a node’s health and performance.
 
-# To get the node metrics:
+# To get the node metrics.
 # Usage: metrics
 function metrics {
   curl --location --request POST "${AVALANCHE_PUBLIC_API}ext/metrics" --data-raw ''
+}
+
+# Platform
+# This API allows clients to interact with the P-Chain, 
+# which maintains Avalanche’s validator set and handles blockchain creation.
+
+# Get the balance of AVAX controlled by a given address.
+# Usage: platform.getBalance [<addresses>]
+# <address> is the address to get the balance of.
+# TODO - correctly pass in array of addresses
+function platform.getBalance {
+  local addresses=["$1"]
+  echo $addresses
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getBalance",
+    "params": {
+      "addresses":'$addresses'
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get a block by its ID.
+# Usage: platform.getBlock <blockID> <encoding>
+# <blockID> is the block ID. It should be in cb58 format.
+# <encoding> is the encoding format to use. Can be either hex or json. Defaults to hex.
+function platform.getBlock {
+  local blockID="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getBlock",
+    "params": {
+        "blockID":"'$blockID'",
+        "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get all the blockchains that exist (excluding the P-Chain).
+# Usage: platform.getBlockchains
+function platform.getBlockchains {
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getBlockchains"
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get the status of a blockchain.
+# <blockchainID> is the blockchain's ID.
+# Usage: platform.getBlockchainStatus <blockchainID>
+function platform.getBlockchainStatus {
+  local blockchainID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getBlockchainStatus",
+    "params": {
+        "blockchainID":"'$blockchainID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Returns an upper bound on amount of tokens that exist that can stake the requested Subnet. 
+# This is an upper bound because it does not account for burnt tokens, including transaction fees.
+# Usage: platform.getCurrentSupply <subnetID>
+function platform.getCurrentSupply {
+  local subnetID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getCurrentSupply",
+    "params": {
+        "subnetID":"'$subnetID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# List the current validators of the given Subnet.
+# Usage: platform.getCurrentValidators <subnetID> [<nodeIDs>]
+# <subnetID> is the Subnet whose current validators are returned. 
+# If omitted, returns the current validators of the Primary Network.
+# <nodeIDs> is a list of the NodeIDs of current validators to request. 
+# If omitted, all current validators are returned. 
+# If a specified nodeID is not in the set of current validators, it will not be included in the response.
+# TODO - correctly pass in array of nodeIDs
+function platform.getCurrentValidators {
+  local subnetID="$1"
+  local nodeIDs=["$2"]
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getCurrentValidators",
+    "params": {
+      "subnetID":"'$subnetID'",
+      "nodeIDs":'$nodeIDs'
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Returns the height of the last accepted block.
+# Usage: platform.getHeight
+function platform.getHeight {
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getHeight"
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Returns the maximum amount of nAVAX staking to the named node during a particular time period.
+# Usage: platform.getMaxStakeAmount <subnetID> <nodeID> <startTime> <endTime>
+# <subnetID> is a cb58 string representing Subnet
+# <nodeID> is a string representing ID of the node whose stake amount is required during the given duration
+# <startTime> is a big number denoting start time of the duration during which stake amount of the node is required.
+# <endTime> is a big number denoting end time of the duration during which stake amount of the node is required.
+function platform.getMaxStakeAmount {
+  local subnetID="$1"
+  local nodeID="$2"
+  local startTime="$3"
+  local endTime="$4"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getMaxStakeAmount",
+    "params": {
+      "subnetID":"'$subnetID'",
+      "nodeID":"'$nodeID'",
+      "startTime":"'$startTime'",
+      "endTime":"'$endTime'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get the minimum amount of tokens required to validate the requested Subnet and the minimum amount of tokens that can be delegated.
+# Usage: platform.getMinStake <subnetID>
+# <subnetID> is a cb58 string representing Subnet
+function platform.getMinStake {
+  local subnetID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getMinStake",
+    "params": {
+      "subnetID":"'$subnetID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# List the validators in the pending validator set of the specified Subnet. Each validator is not currently validating the Subnet but will in the future.
+# Usage: platform.getPendingValidators <subnetID> [<nodeIDs>]
+# <subnetID> is the Subnet whose current validators are returned. 
+# If omitted, returns the current validators of the Primary Network.
+# <nodeIDs> is a list of the NodeIDs of pending validators to request. 
+# If omitted, all pending validators are returned. If a specified nodeID is not in the set of pending validators, it will not be included in the response.
+# TODO - correctly pass in array of nodeIDs
+function platform.getPendingValidators {
+  local subnetID="$1"
+  local nodeIDs=["$2"]
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getPendingValidators",
+    "params": {
+      "subnetID":"'$subnetID'",
+      "nodeIDs":'$nodeIDs'
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Returns the UTXOs that were rewarded after the provided transaction's staking or delegation period ended.
+# Usage: platform.getRewardUTXOs <txID> <encoding>
+# <txID> is the ID of the staking or delegating transaction
+# <encoding> is "hex" only.
+# TODO - properly format arguments
+function platform.getRewardUTXOs {
+  local txID="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getRewardUTXOs",
+    "params": {
+      "txID":"'$txID'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Retrieve an assetID for a Subnet’s staking asset.
+# Usage: platform.getStakingAssetID <subnetID>
+# <subnetID> is the Subnet whose assetID is requested.
+function platform.getStakingAssetID {
+  local subnetID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getStakingAssetID",
+    "params": {
+      "subnetID":"'$subnetID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get info about the Subnets.
+# Usage: platform.getSubnets [<ids>]
+# <ids> are the IDs of the Subnets to get information about. If omitted, gets information about all Subnets.
+# TODO - correctly pass in array of ids
+function platform.getSubnets {
+  local ids=["$1"]
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getSubnets",
+    "params": {
+      "ids":'$ids'
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get the amount of nAVAX staked by a set of addresses. The amount returned does not include staking rewards.
+# Usage: platform.getStake <ids>
+# <addresses> are the addresses to get information about.
+# TODO - correctly pass in array of addresses
+function platform.getStake {
+  local addresses=["$1"]
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getStake",
+    "params": {
+      "addresses":'$addresses'
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get the current P-Chain timestamp.
+# Usage: platform.getTimestamp
+function platform.getTimestamp {
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getTimestamp"
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get the total amount of tokens staked on the requested Subnet.
+# Usage: platform.getTotalStake <subnetID>
+# <subnetID> is a cb58 string representing Subnet
+function platform.getTotalStake {
+  local subnetID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getTotalStake",
+    "params": {
+      "subnetID":"'$subnetID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Gets a transaction by its ID.
+# Usage: platform.getTx <txID> <encoding>
+# <txID> is the ID of the transaction
+# <encoding> parameter to specify the format for the returned transaction. Can be either hex or json. Defaults to hex.
+function platform.getTx {
+  local txID="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getTx",
+    "params": {
+      "txID":"'$txID'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Gets a transaction’s status by its ID. 
+# If the transaction was dropped, response will include a reason field with more information why the transaction was dropped.
+# Usage: platform.getTxStatus <txID>
+# <txID> is the ID of the transaction
+function platform.getTxStatus {
+  local txID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getTxStatus",
+    "params": {
+      "txID":"'$txID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Gets the UTXOs that reference a given set of addresses.
+# Usage: platform.getUTXOs <addresses> <limit> <encoding>
+# <addresses> are the addresses to get the UTXOs for.
+# <limit> UTXOs are returned. If limit is omitted or greater than 1024, it is set to 1024.
+# <encoding> specifies the format for the returned UTXOs. Can only be hex when a value is provided.
+# TODO - correctly pass in array of addresses
+function platform.getUTXOs {
+  local addresses=["$1"]
+  local limit="$2"
+  local encoding="$3"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getUTXOs",
+    "params": {
+      "addresses":'$addresses',
+      "limit":"'$limit'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get the validators and their weights of a Subnet or the Primary Network at a given P-Chain height.
+# Usage: platform.getValidatorsAt <height> <subnetID>
+# <height> is the P-Chain height to get the validator set at.
+# <subnetID> is the Subnet ID to get the validator set of. If not given, gets validator set of the Primary Network.
+function platform.getValidatorsAt {
+  local height="$1"
+  local subnetID="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.getValidatorsAt",
+    "params": {
+      "height":"'$height'",
+      "subnetID":"'$subnetID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Issue a transaction to the Platform Chain.
+# Usage: platform.issueTx <tx> <encoding>
+# <tx> is the byte representation of a transaction.
+# <encoding> specifies the encoding format for the transaction bytes. Can only be hex when a value is provided.
+function platform.issueTx {
+  local tx="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.issueTx",
+    "params": {
+      "tx":"'$tx'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Sample validators from the specified Subnet.
+# Usage: platform.sampleValidators <tx> <encoding>
+# <size> is the number of validators to sample.
+# <subnetID> is the Subnet to sampled from. If omitted, defaults to the Primary Network.
+# TODO - properly format arguments
+function platform.sampleValidators {
+  local size="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.sampleValidators",
+    "params": {
+      "size":"'$size'",
+      "subnetID":"'$subnetID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get the Subnet that validates a given blockchain.
+# Usage: platform.validatedBy <blockchainID>
+# <blockchainID> is the blockchain’s ID.
+function platform.validatedBy {
+  local blockchainID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.validatedBy",
+    "params": {
+      "blockchainID":"'$blockchainID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
+}
+
+# Get the IDs of the blockchains a Subnet validates.
+# Usage: platform.validates <subnetID>
+# <subnetID> is the Subnet’s ID.
+function platform.validates {
+  local subnetID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"platform.validates",
+    "params": {
+      "subnetID":"'$subnetID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/P"
 }
