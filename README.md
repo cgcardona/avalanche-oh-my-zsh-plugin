@@ -124,3 +124,18 @@ plugins=(... avalanche)
 | `avax.getUTXOs <addresses> <sourceChain> <address> <utxo> <encoding>`| Gets the UTXOs that reference a given address. |
 | `avax.issueTx <tx> <encoding>`| Send a signed transaction to the network. |
 | `avax.getAtomicTxStatus <txID>`| Get the status of an atomic transaction sent to the network. |
+| `avax.getAtomicTxStatus <txID>`| Get the status of an atomic transaction sent to the network. |
+
+### AVM
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
+| `avm.buildGenesis <networkID> <genesisData> <encoding>`| Create the byte representation of the genesis state. |
+| `avm.getAllBalances <address>`| Get the balances of all assets controlled by a given address. |
+| `avm.getAssetDescription <assetID>`| Get information about an asset. |
+| `avm.getBalance <address> <assetID>`| Get the balance of an asset controlled by a given address. |
+| `avm.getAddressTxs <address> <assetID> <pageSize>`| Returns all transactions that change the balance of the given address. |
+| `avm.getTx <txID> <encoding>`| Returns the specified transaction. |
+| `avm.getTxStatus <txID>`| Get the status of a transaction sent to the network. |
+| `avm.getUTXOs <addresses> <limit> <encoding>`| Gets the UTXOs that reference a given address. |
+| `avm.issueTx <tx> <encoding>`| Send a signed transaction to the network. |

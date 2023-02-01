@@ -1015,3 +1015,167 @@ function avax.getAtomicTxStatus {
     }
   }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/C/avax"
 }
+
+# AVM
+# The X-Chain, Avalanche’s native platform for creating and trading assets, is an instance of the Avalanche Virtual Machine (AVM). 
+# This API allows clients to create and trade assets on the X-Chain and other instances of the AVM.
+
+# Given a JSON representation of this Virtual Machine’s genesis state, create the byte representation of that state.
+# Usage: avm.buildGenesis <networkID> <genesisData> <encoding>
+# TODO - get arg defs
+function avm.buildGenesis {
+  local networkID="$1"
+  local genesisData="$2"
+  local encoding="$3"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avm.buildGenesis",
+    "params": {
+      "networkID":"'$networkID'",
+      "genesisData":"'$genesisData'",
+      "encoding":"'$encoding'",
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/vm/avm"
+}
+
+# Get the balances of all assets controlled by a given address.
+# Usage: avm.getAllBalances <address>
+# <address> is the address to get the balances of.
+function avm.getAllBalances {
+  local address="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avm.getAllBalances",
+    "params": {
+      "address":"'$address'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/X"
+}
+
+# Get information about an asset.
+# Usage: avm.getAssetDescription <assetID>
+# <assetID> is the id of the asset for which the information is requested.
+function avm.getAssetDescription {
+  local assetID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avm.getAssetDescription",
+    "params": {
+      "assetID":"'$assetID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/X"
+}
+
+# Get the balance of an asset controlled by a given address.
+# Usage: avm.getBalance <address> <assetID>
+# <address> owner of the asset
+# <assetID> id of the asset for which the balance is requested
+function avm.getBalance {
+  local address="$1"
+  local assetID="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avm.getBalance",
+    "params": {
+      "address":"'$address'",
+      "assetID":"'$assetID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/X"
+}
+
+# Returns all transactions that change the balance of the given address. A transaction is said to change an address's balance if either is true:
+# Usage: avm.getAddressTxs <address> <assetID> <pageSize>
+# <address> The address for which we're fetching related transactions
+# <assetID> Only return transactions that changed the balance of this asset. Must be an ID or an alias for an asset.
+# <pageSize> Number of items to return per page. Optional. Defaults to 1024.
+function avm.getAddressTxs {
+  local address="$1"
+  local assetID="$2"
+  local pageSize="$3"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avm.getAddressTxs",
+    "params": {
+      "address":"'$address'",
+      "assetID":"'$assetID'",
+      "pageSize":"'$pageSize'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/X"
+}
+
+# Returns the specified transaction.
+# <txID> is the ID of the transaction.
+# <encoding> is "hex" only.
+function avm.getTx {
+  local txID="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avm.getTx",
+    "params": {
+      "txID":"'$txID'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/X"
+}
+
+# Get the status of a transaction sent to the network.
+# Usage avm.getTxStatus <txID>
+# <txID> is the ID of the transaction.
+function avm.getTxStatus {
+  local txID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avm.getTxStatus",
+    "params": {
+      "txID":"'$txID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/X"
+}
+
+# Gets the UTXOs that reference a given address. If sourceChain is specified, then it will retrieve the atomic UTXOs exported from that chain to the X Chain.
+# Usage: avm.getUTXOs <addresses> <limit> <encoding>
+# <addresses> are the addresses to get the UTXOs for.
+# <limit> UTXOs are returned. If limit is omitted or greater than 1024, it is set to 1024.
+# <encoding> specifies the format for the returned UTXOs. Can only be hex when a value is provided.
+# TODO - correctly pass in array of addresses
+function avm.getUTXOs {
+  local addresses=["$1"]
+  local limit="$2"
+  local encoding="$3"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avm.getUTXOs",
+    "params": {
+      "addresses":'$addresses',
+      "limit":"'$limit'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/X"
+}
+
+# Send a signed transaction to the network.
+# Usage: avm.issueTx <tx> <encoding>
+# <tx> is the byte representation of a transaction.
+# <encoding> specifies the encoding format for the transaction bytes. Can only be hex when a value is provided.
+function avm.issueTx {
+  local tx="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"avm.issueTx",
+    "params": {
+      "tx":"'$tx'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/bc/X"
+}
