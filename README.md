@@ -1,6 +1,6 @@
 # Avalanche oh-my-zsh Plugin
 
-![Avalanche Logo](assets/avalanche-logo.png "Avalanche Logo")
+<img alt="Avalanche Logo" height="300px">
 
 The `avalanche` plugin provides many useful [functions](#functions).
 
