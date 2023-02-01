@@ -2,12 +2,49 @@
 
 <img alt="Avalanche Logo" width="300px" src="assets/powered-by-avalanche.png">
 
-The `avalanche` plugin provides many useful [functions](#functions).
+[Avalanche](https://docs.avax.network) is an open-source platform for launching decentralized applications and enterprise blockchain deployments in one interoperable, highly scalable ecosystem. [Oh My Zsh](https://ohmyz.sh) is a delightful, open source, community-driven framework for managing your Zsh configuration. This oh-my-zsh plugin brings all the power of Avalanche to your terminal!
+
+Supported APIs
+
+- [P-Chain](#p-chain)
+- [C-Chain](#c-chain)
+- [X-Chain](#x-chain)
+- [Admin](#admin)
+- [Auth](#auth)
+- [Health](#health)
+- [Index](#index)
+- [Info](#info)
+- [IPC](#ipc)
+- [Metrics](#metrics)
+
+## Config
 
 To use it, add `avalanche` to the plugins array in your zshrc file:
 
 ```zsh
 plugins=(... avalanche)
+```
+
+Change the API endpoint for the appropriate network by passing `local`, `fuji`, or `mainnet` into `setAvalancheEnvironmet`
+
+```zsh
+# set to a local network
+setAvalancheEnvironment local
+echo $AVALANCHE_NETWORK && echo $AVALANCHE_PUBLIC_API
+local
+http://127.0.0.1:9650/
+
+# set to fuji testnet
+setAvalancheEnvironment fuji
+echo $AVALANCHE_NETWORK && echo $AVALANCHE_PUBLIC_API
+fuji
+https://api.avax-test.network/
+
+# set to mainnet
+setAvalancheEnvironment mainnet
+echo $AVALANCHE_NETWORK && echo $AVALANCHE_PUBLIC_API
+mainnet
+https://api.avax.network/
 ```
 
 ## Aliases
@@ -83,7 +120,7 @@ plugins=(... avalanche)
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
 | `metrics`| To get the node metrics |
 
-### Platform
+### P-Chain
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
@@ -122,7 +159,7 @@ plugins=(... avalanche)
 | `avax.getAtomicTxStatus <txID>`| Get the status of an atomic transaction sent to the network. |
 | `avax.getAtomicTxStatus <txID>`| Get the status of an atomic transaction sent to the network. |
 
-### AVM
+### X-Chain 
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
