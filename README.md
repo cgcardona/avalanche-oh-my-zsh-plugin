@@ -178,3 +178,15 @@ https://api.avax.network/
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
 | `setAvalancheEnvironment <local|fuji|mainnet>`  | Sets the public API url per the environment remote                                                 |
+
+## TODO
+
+- Correctly pass in array parameters
+  - nodeIDs
+  - addresses
+  - ids
+- Add other Index endpoints
+  - /ext/index/X/vtx
+  - /ext/index/P/block
+  - /ext/index/C/block
+- Document missing argument definitions

@@ -25,15 +25,16 @@ function setAvalancheEnvironment {
 
 # Admin
 # This API can be used for measuring node health and debugging.
+# More info <https://docs.avax.network/apis/avalanchego/apis/admin>
 
 # Assign an API endpoint an alias, a different endpoint for the API. 
 # The original endpoint will still work. This change only affects this node; 
 # other nodes will not know about this alias.
-# Usage: setAlias <newAlias> <endpoint>
+# Usage: admin.alias <newAlias> <endpoint>
 # The API being aliased can now be called at ext/setAlias.
 # <newAlias> can be at most 512 characters.
 # <endpoint> is the original endpoint of the API. endpoint should only include the part of the endpoint after /ext/.
-function setAlias {
+function admin.alias {
   local newAlias="$1"
   local endpoint="$2"
   curl -X POST --data '{
@@ -48,10 +49,10 @@ function setAlias {
 }
 
 # Give a blockchain an alias, a different name that can be used any place the blockchain’s ID is used.
-# Usage: aliasChain <chain> <newAlias>
+# Usage: admin.aliasChain <chain> <newAlias>
 # <chain> is the blockchain’s ID.
 # <newAlias> can now be used in place of the blockchain’s ID (in API endpoints, for example.)
-function aliasChain {
+function admin.aliasChain {
   local chain="$1"
   local newAlias="$2"
   curl -X POST --data '{
@@ -66,9 +67,9 @@ function aliasChain {
 }
 
 # Returns the aliases of the chain
-# Usage: getChainAliases <chain>
+# Usage: admin.getChainAliases <chain>
 # <chain> is the blockchain’s ID.
-function getChainAliases {
+function admin.getChainAliases {
   local chain="$1"
   curl -X POST --data '{
     "jsonrpc":"2.0",
@@ -81,10 +82,10 @@ function getChainAliases {
 }
 
 # Returns log and display levels of loggers.
-# Usage: getLoggerLevel <loggerName>
+# Usage: admin.getLoggerLevel <loggerName>
 # <loggerName> is the name of the logger to be returned. This is an optional argument. 
 # If not specified, it returns all possible loggers.
-function getLoggerLevel {
+function admin.getLoggerLevel {
   local loggerName="$1"
   curl -X POST --data '{
     "jsonrpc":"2.0",
@@ -97,8 +98,8 @@ function getLoggerLevel {
 }
 
 # Dynamically loads any virtual machines installed on the node as plugins. 
-# Usage: loadVMs
-function loadVMs {
+# Usage: admin.loadVMs
+function admin.loadVMs {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -107,8 +108,8 @@ function loadVMs {
 }
 
 # Writes a profile of mutex statistics to lock.profile.
-# Usage: lockProfile
-function lockProfile {
+# Usage: admin.lockProfile
+function admin.lockProfile {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -117,8 +118,8 @@ function lockProfile {
 }
 
 # Writes a memory profile of the to mem.profile.
-# Usage: memoryProfile
-function memoryProfile {
+# Usage: admin.memoryProfile
+function admin.memoryProfile {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -127,11 +128,11 @@ function memoryProfile {
 }
 
 # Sets log and display levels of loggers.
-# Usage: setLoggerLevel <loggerName> <logLevel> <displayLevel>
+# Usage: admin.setLoggerLevel <loggerName> <logLevel> <displayLevel>
 # <loggerName> is the logger's name to be changed. This is an optional parameter. If not specified, it changes all possible loggers.
 # <logLevel> is the log level of written logs, can be omitted.
 # <displayLevel> is the log level of displayed logs, can be omitted.
-function setLoggerLevel {
+function admin.setLoggerLevel {
   local loggerName="$1"
   local logLevel="$2"
   local displayLevel="$3"
@@ -148,8 +149,8 @@ function setLoggerLevel {
 }
 
 # Start profiling the CPU utilization of the node. To stop, call admin.stopCPUProfiler. On stop, writes the profile to cpu.profile.
-# Usage: startCPUProfiler
-function startCPUProfiler {
+# Usage: admin.startCPUProfiler
+function admin.startCPUProfiler {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -158,8 +159,8 @@ function startCPUProfiler {
 }
 
 # Stop the CPU profile that was previously started.
-# Usage: stopCPUProfiler
-function stopCPUProfiler {
+# Usage: admin.stopCPUProfiler
+function admin.stopCPUProfiler {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -173,12 +174,12 @@ function stopCPUProfiler {
 # More info <https://docs.avax.network/apis/avalanchego/apis/auth>
 
 # Creates a new authorization token that grants access to one or more API endpoints.
-# Usage: newToken <password> <endpoints>
+# Usage: auth.newToken <password> <endpoints>
 # <password> is this node’s authorization token password.
 # <endpoints> is a list of endpoints that will be accessible using the generated token. 
 # If endpoints contains an element "*", the generated token can access any API endpoint.
 # TODO - correctly pass in array of endpoints
-function newToken {
+function auth.newToken {
   local password="$1"
   local endpoints=["$2"]
   curl -X POST --data '{
@@ -193,10 +194,10 @@ function newToken {
 }
 
 # Revoke a previously generated token. The given token will no longer grant access to any endpoint. If the token is invalid, does nothing.
-# Usage: revokeToken <password> <token> 
+# Usage: auth.revokeToken <password> <token> 
 # <password> is this node’s authorization token password.
 # <token> is the authorization token being revoked.
-function revokeToken {
+function auth.revokeToken {
   local password="$1"
   local token="$2"
   curl -X POST --data '{
@@ -211,10 +212,10 @@ function revokeToken {
 }
 
 # Change this node’s authorization token password. Any authorization tokens created under an old password will become invalid.
-# Usage: changePassword <oldPassword> <newPassword>
+# Usage: auth.changePassword <oldPassword> <newPassword>
 # <oldPassword> is this node’s current authorization token password.
 # <newPassword> is the node’s new authorization token password after this API call. Must be between 1 and 1024 characters.
-function changePassword {
+function auth.changePassword {
   local oldPassword="$1"
   local newPassword="$2"
   curl -X POST --data '{
@@ -230,11 +231,12 @@ function changePassword {
 
 # Health
 # This API can be used for measuring node health.
+# More info <https://docs.avax.network/apis/avalanchego/apis/health>
 
 # The node runs a set of health checks every 30 seconds, including a health check for each chain. 
 # This method returns the last set of health check results.
-# Usage: health
-function health {
+# Usage: avalanche.health
+function avalanche.health {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -249,11 +251,14 @@ function health {
 # AvalancheGo will only index containers that are accepted when running with <--index-enabled> set to true
 # More info <https://docs.avax.network/apis/avalanchego/apis/index-api>
 # TODO - add other endpoints
+# - /ext/index/X/vtx
+# - /ext/index/P/block
+# - /ext/index/C/block
 
 # Get the most recently accepted container.
-# Usage: getLastAccepted <encoding>
+# Usage: index.getLastAccepted <encoding>
 # <encoding> is "hex" only.
-function getLastAccepted {
+function index.getLastAccepted {
   local encoding="$1"
   curl -X POST --data '{
     "jsonrpc":"2.0",
@@ -266,10 +271,10 @@ function getLastAccepted {
 }
 
 # Get container by index. The first container accepted is at index 0, the second is at index 1, etc.
-# Usage: getContainerByIndex <index> <encoding>
+# Usage: index.getContainerByIndex <index> <encoding>
 # <index> is how many containers were accepted in this index before this one
 # <encoding> is "hex" only.
-function getContainerByIndex {
+function index.getContainerByIndex {
   local index="$1"
   local encoding="$2"
   curl -X POST --data '{
@@ -284,10 +289,10 @@ function getContainerByIndex {
 }
 
 # Get container by ID.
-# Usage: getContainerByID <id> <encoding>
+# Usage: index.getContainerByID <id> <encoding>
 # <id> is the container's ID
 # <encoding> is "hex" only.
-function getContainerByID {
+function index.getContainerByID {
   local id="$1"
   local encoding="$2"
   curl -X POST --data '{
@@ -302,11 +307,11 @@ function getContainerByID {
 }
 
 # Returns containers with indices in [startIndex, startIndex+1, ... , startIndex + numToFetch
-# Usage: getContainerRange <startIndex> <numToFetch> <encoding>
+# Usage: index.getContainerRange <startIndex> <numToFetch> <encoding>
 # <startIndex> is the beginning index
 # <numToFetch> is the number of containers to fetch
 # <encoding> is "hex" only.
-function getContainerRange {
+function index.getContainerRange {
   local startIndex="$1"
   local numToFetch="$2"
   local encoding="$3"
@@ -323,10 +328,10 @@ function getContainerRange {
 }
 
 # Get a container's index.
-# Usage: getIndex <id> <encoding>
+# Usage: index.getIndex <id> <encoding>
 # <id> is the ID of the container to fetch
 # <encoding> is "hex" only.
-function getIndex {
+function index.getIndex {
   local id="$1"
   local encoding="$2"
   curl -X POST --data '{
@@ -341,10 +346,10 @@ function getIndex {
 }
 
 # Returns true if the container is in this index.
-# Usage: isAccepted <id> <encoding>
+# Usage: index.isAccepted <id> <encoding>
 # <id> is the ID of the container to fetch
 # <encoding> is "hex" only.
-function isAccepted {
+function index.isAccepted {
   local id="$1"
   local encoding="$2"
   curl -X POST --data '{
@@ -360,11 +365,12 @@ function isAccepted {
 
 # Info
 # This API can be used to access basic information about the node.
+# More info <https://docs.avax.network/apis/avalanchego/apis/info>
 
 # Given a blockchain’s alias, get its ID. 
-# Usage: getBlockchainID <alias>
+# Usage: info.getBlockchainID <alias>
 # <alias> is the blockchain’s alias.
-function getBlockchainID {
+function info.getBlockchainID {
   local alias="$1"
   curl -X POST --data '{
     "jsonrpc":"2.0",
@@ -377,8 +383,8 @@ function getBlockchainID {
 }
 
 # Get the ID of the network this node is participating in.
-# Usage: getNetworkID
-function getNetworkID {
+# Usage: info.getNetworkID
+function info.getNetworkID {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -387,8 +393,8 @@ function getNetworkID {
 }
 
 # Get the name of the network this node is participating in.
-# Usage: getNetworkName
-function getNetworkName {
+# Usage: info.getNetworkName
+function info.getNetworkName {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -397,8 +403,8 @@ function getNetworkName {
 }
 
 # Get the ID of this node.
-# Usage: getNodeID
-function getNodeID {
+# Usage: info.getNodeID
+function info.getNodeID {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -407,8 +413,8 @@ function getNodeID {
 }
 
 # Get the IP of this node.
-# Usage: getNodeIP
-function getNodeIP {
+# Usage: info.getNodeIP
+function info.getNodeIP {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -417,8 +423,8 @@ function getNodeIP {
 }
 
 # Get the version of this node.
-# Usage: getNodeVersion
-function getNodeVersion {
+# Usage: info.getNodeVersion
+function info.getNodeVersion {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -427,8 +433,8 @@ function getNodeVersion {
 }
 
 # Get the virtual machines installed on this node.
-# Usage: getVMs
-function getVMs {
+# Usage: info.getVMs
+function info.getVMs {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -437,9 +443,9 @@ function getVMs {
 }
 
 # Check whether a given chain is done bootstrapping
-# Usage: isBootstrapped <chain>
+# Usage: info.isBootstrapped <chain>
 # <chain> is the ID or alias of a chain.
-function isBootstrapped {
+function info.isBootstrapped {
   local chain="$1"
   curl -X POST --data '{
     "jsonrpc":"2.0",
@@ -452,12 +458,12 @@ function isBootstrapped {
 }
 
 # Get a description of peer connections.
-# Usage: peers <nodeIDs>
+# Usage: info.peers <nodeIDs>
 # TODO - correctly pass in array of nodeIDs
 # <nodeIDs> is an optional parameter to specify what NodeID's descriptions should be returned. 
 # If this parameter is left empty, descriptions for all active connections will be returned. 
 # If the node is not connected to a specified nodeID, it will be omitted from the response.
-function peers {
+function info.peers {
   local nodeIDs=["$1"]
   # echo $nodeIDs
   curl -X POST --data '{
@@ -471,8 +477,8 @@ function peers {
 }
 
 # Get the fees of the network.
-# Usage: getTxFee
-function getTxFee {
+# Usage: info.getTxFee
+function info.getTxFee {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -481,8 +487,8 @@ function getTxFee {
 }
 
 # Returns the network's observed uptime of this node.
-# Usage: uptime
-function uptime {
+# Usage: info.uptime
+function info.uptime {
   curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -494,11 +500,12 @@ function uptime {
 # The IPC API allows users to create Unix domain sockets for blockchains to publish to. 
 # When the blockchain accepts a vertex/block it will publish it to a socket and the decisions contained inside will be published to another.
 # A node will only expose this API if it is started with config flag <api-ipcs-enabled=true>.
+# More info <https://docs.avax.network/apis/avalanchego/apis/ipc>
 
 # Register a blockchain so it publishes accepted vertices to a Unix domain socket.
-# Usage: publishBlockchain <blockchainID>
+# Usage: ipcs.publishBlockchain <blockchainID>
 # <blockchainID> is the blockchain that will publish accepted vertices.
-function publishBlockchain {
+function ipcs.publishBlockchain {
   local blockchainID="$1"
   curl -X POST --data '{
     "jsonrpc":"2.0",
@@ -511,9 +518,9 @@ function publishBlockchain {
 }
 
 # Deregister a blockchain so that it no longer publishes to a Unix domain socket.
-# Usage: unpublishBlockchain <blockchainID>
+# Usage: ipcs.unpublishBlockchain <blockchainID>
 # <blockchainID> is the blockchain that will no longer publish to a Unix domain socket.
-function unpublishBlockchain {
+function ipcs.unpublishBlockchain {
   local blockchainID="$1"
   curl -X POST --data '{
     "jsonrpc":"2.0",
@@ -527,16 +534,18 @@ function unpublishBlockchain {
 
 # Metrics
 # The API allows clients to get statistics about a node’s health and performance.
+# More info <https://docs.avax.network/apis/avalanchego/apis/metrics>
 
 # To get the node metrics.
-# Usage: metrics
-function metrics {
+# Usage: avalanche.metrics
+function avalanche.metrics {
   curl --location --request POST "${AVALANCHE_PUBLIC_API}ext/metrics" --data-raw ''
 }
 
-# Platform
+# P-Chain
 # This API allows clients to interact with the P-Chain, 
-# which maintains Avalanche’s validator set and handles blockchain creation.
+# Which maintains Avalanche’s validator set and handles blockchain creation.
+# More info <https://docs.avax.network/apis/avalanchego/apis/p-chain>
 
 # Get the balance of AVAX controlled by a given address.
 # Usage: platform.getBalance [<addresses>]
@@ -938,6 +947,9 @@ function platform.validates {
 }
 
 # C-Chain
+# This API allows clients to interact with the C-Chain, 
+# Which is an instance of the EVM.
+# More info <https://docs.avax.network/apis/avalanchego/apis/c-chain>
 
 # Gets a transaction by its ID. 
 # Usage: avax.getAtomicTx <txID> <encoding>
@@ -1019,6 +1031,7 @@ function avax.getAtomicTxStatus {
 # AVM
 # The X-Chain, Avalanche’s native platform for creating and trading assets, is an instance of the Avalanche Virtual Machine (AVM). 
 # This API allows clients to create and trade assets on the X-Chain and other instances of the AVM.
+# More info <https://docs.avax.network/apis/avalanchego/apis/x-chain>
 
 # Given a JSON representation of this Virtual Machine’s genesis state, create the byte representation of that state.
 # Usage: avm.buildGenesis <networkID> <genesisData> <encoding>
@@ -1109,6 +1122,7 @@ function avm.getAddressTxs {
 }
 
 # Returns the specified transaction.
+# Usage: avm.getTx <txID> <encoding>
 # <txID> is the ID of the transaction.
 # <encoding> is "hex" only.
 function avm.getTx {
