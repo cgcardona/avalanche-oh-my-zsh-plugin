@@ -25,7 +25,7 @@ To use it, add `avalanche` to the plugins array in your zshrc file:
 plugins=(... avalanche)
 ```
 
-Change the API endpoint for the appropriate network by passing `local`, `fuji`, or `mainnet` into `setAvalancheEnvironmet`
+Change the API endpoint for the appropriate network by passing `local`, `fuji`, or `mainnet` into `setAvalancheEnvironment`
 
 ```zsh
 # set to a local network
