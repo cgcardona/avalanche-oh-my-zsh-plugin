@@ -429,3 +429,7 @@ avm.getTxStatus 2qhaVcsUakMQEw7rRLFP94QNMX6vGNggpzBFHeBKARuHhXpcJ8
   - /ext/index/C/block
 - Document missing argument definitions
 - Add hardware wallet support for generating and signing transactions
+
+## License
+
+This project is licensed under the terms of [the MIT license](LICENSE).
