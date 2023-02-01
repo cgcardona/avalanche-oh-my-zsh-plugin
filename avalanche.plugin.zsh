@@ -166,6 +166,187 @@ function stopCPUProfiler {
   }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/admin"
 }
 
+# Auth
+
+# Creates a new authorization token that grants access to one or more API endpoints.
+# Usage: newToken <password> <endpoints>
+# <password> is this node’s authorization token password.
+# <endpoints> is a list of endpoints that will be accessible using the generated token. 
+# If endpoints contains an element "*", the generated token can access any API endpoint.
+# TODO - correctly pass in array of endpoints
+function newToken {
+  local password="$1"
+  local endpoints=["$2"]
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"auth.newToken",
+    "params": {
+      "password":"'$password'",
+      "endpoints":'$endpoints'
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/auth"
+}
+
+# Revoke a previously generated token. The given token will no longer grant access to any endpoint. If the token is invalid, does nothing.
+# Usage: revokeToken <password> <token> 
+# <password> is this node’s authorization token password.
+# <token> is the authorization token being revoked.
+function revokeToken {
+  local password="$1"
+  local token="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"auth.revokeToken",
+    "params": {
+      "password":"'$password'",
+      "token":"'$token'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/auth"
+}
+
+# Change this node’s authorization token password. Any authorization tokens created under an old password will become invalid.
+# Usage: changePassword <oldPassword> <newPassword>
+# <oldPassword> is this node’s current authorization token password.
+# <newPassword> is the node’s new authorization token password after this API call. Must be between 1 and 1024 characters.
+function changePassword {
+  local oldPassword="$1"
+  local newPassword="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"auth.changePassword",
+    "params": {
+      "oldPassword":"'$oldPassword'",
+      "newPassword":"'$newPassword'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/auth"
+}
+
+# Health
+
+# The node runs a set of health checks every 30 seconds, including a health check for each chain. 
+# This method returns the last set of health check results.
+# Usage: health
+function health {
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"health.health"
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/health"
+}
+
+# Index
+
+# Get the most recently accepted container.
+# Usage: getLastAccepted <encoding>
+# <encoding> is "hex" only.
+function getLastAccepted {
+  local encoding="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"index.getLastAccepted",
+    "params": {
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/index/X/tx"
+}
+
+# Get container by index. The first container accepted is at index 0, the second is at index 1, etc.
+# Usage: getContainerByIndex <index> <encoding>
+# <index> is how many containers were accepted in this index before this one
+# <encoding> is "hex" only.
+function getContainerByIndex {
+  local index="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"index.getContainerByIndex",
+    "params": {
+      "index": "'$index'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/index/X/tx"
+}
+
+# Get container by ID.
+# Usage: getContainerByID <id> <encoding>
+# <id> is the container's ID
+# <encoding> is "hex" only.
+function getContainerByID {
+  local id="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"index.getContainerByID",
+    "params": {
+      "id": "'$id'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/index/X/tx"
+}
+
+# Returns containers with indices in [startIndex, startIndex+1, ... , startIndex + numToFetch
+# Usage: getContainerRange <startIndex> <numToFetch> <encoding>
+# <startIndex> is the beginning index
+# <numToFetch> is the number of containers to fetch
+# <encoding> is "hex" only.
+function getContainerRange {
+  local startIndex="$1"
+  local numToFetch="$2"
+  local encoding="$3"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"index.getContainerRange",
+    "params": {
+      "startIndex": "'$startIndex'",
+      "numToFetch": "'$numToFetch'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/index/X/tx"
+}
+
+# Get a container's index.
+# Usage: getIndex <id> <encoding>
+# <id> is the ID of the container to fetch
+# <encoding> is "hex" only.
+function getIndex {
+  local id="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"index.getIndex",
+    "params": {
+      "id": "'$id'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/index/X/tx"
+}
+
+# Returns true if the container is in this index.
+# Usage: isAccepted <id> <encoding>
+# <id> is the ID of the container to fetch
+# <encoding> is "hex" only.
+function isAccepted {
+  local id="$1"
+  local encoding="$2"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"index.isAccepted",
+    "params": {
+      "id": "'$id'",
+      "encoding":"'$encoding'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/index/X/tx"
+}
+
 # Info
 
 # Given a blockchain’s alias, get its ID. 

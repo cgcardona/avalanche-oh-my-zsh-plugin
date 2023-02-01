@@ -37,7 +37,26 @@ plugins=(... avalanche)
 
 | Command                | Description                                                                                              |
 | :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| ``         | |
+| `newToken <password> <endpoints>`         | Creates a new authorization token that grants access to one or more API endpoints.|
+| `revokeToken <password> <token>`         | Revoke a previously generated token.|
+| `changePassword <oldPassword> <newPassword>`         | Change this node’s authorization token password.|
+
+### Health
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
+| `health`         | The node runs a set of health checks every 30 seconds, including a health check for each chain. |
+
+### Index
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
+| `getLastAccepted <encoding>`         | Get the most recently accepted container. |
+| `getContainerByIndex <index> <encoding>`         | Get container by index. |
+| `getContainerByID <id> <encoding>`         | Get container by ID. |
+| `getContainerRange <startIndex> <numToFetch> <encoding>`         | Returns containers with indices |
+| `getIndex <id> <encoding>`         | Get a container's index. |
+| `isAccepted <id> <encoding>`         | Returns true if the container is in this index. |
 
 ### Info
 
