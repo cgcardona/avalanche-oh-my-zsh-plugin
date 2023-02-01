@@ -73,3 +73,16 @@ plugins=(... avalanche)
 | `peers <nodeIDs>`     | Get a description of peer connections. |
 | `getTxFee`     | Get the fees of the network. |
 | `uptime`     | Returns the network's observed uptime of this node. |
+
+### IPC
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
+| `publishBlockchain <blockchainID>`| Register a blockchain so it publishes accepted vertices to a Unix domain socket. |
+| `unpublishBlockchain <blockchainID>`| Deregister a blockchain so that it no longer publishes to a Unix domain socket. |
+
+### Metrics
+
+| Command                | Description                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
+| `metrics`| To get the node metrics |

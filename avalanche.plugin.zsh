@@ -24,6 +24,7 @@ function setAvalancheEnvironment {
 }
 
 # Admin
+# This API can be used for measuring node health and debugging.
 
 # Assign an API endpoint an alias, a different endpoint for the API. 
 # The original endpoint will still work. This change only affects this node; 
@@ -167,6 +168,9 @@ function stopCPUProfiler {
 }
 
 # Auth
+# When you run a node, you can require that API calls have an authorization token attached. 
+# This API manages the creation and revocation of authorization tokens.
+# More info <https://docs.avax.network/apis/avalanchego/apis/auth>
 
 # Creates a new authorization token that grants access to one or more API endpoints.
 # Usage: newToken <password> <endpoints>
@@ -225,6 +229,7 @@ function changePassword {
 }
 
 # Health
+# This API can be used for measuring node health.
 
 # The node runs a set of health checks every 30 seconds, including a health check for each chain. 
 # This method returns the last set of health check results.
@@ -238,6 +243,12 @@ function health {
 }
 
 # Index
+# AvalancheGo can be configured to run with an indexer. 
+# That is, it saves (indexes) every container (a block, vertex or transaction) it accepts on the X-Chain, P-Chain and C-Chain. 
+# To run AvalancheGo with indexing enabled, set command line flag <--index-enabled> to true. 
+# AvalancheGo will only index containers that are accepted when running with <--index-enabled> set to true
+# More info <https://docs.avax.network/apis/avalanchego/apis/index-api>
+# TODO - add other endpoints
 
 # Get the most recently accepted container.
 # Usage: getLastAccepted <encoding>
@@ -348,6 +359,7 @@ function isAccepted {
 }
 
 # Info
+# This API can be used to access basic information about the node.
 
 # Given a blockchain’s alias, get its ID. 
 # Usage: getBlockchainID <alias>
@@ -476,4 +488,48 @@ function uptime {
     "id"     :1,
     "method" :"info.uptime"
   }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/info"
+}
+
+# IPC
+# The IPC API allows users to create Unix domain sockets for blockchains to publish to. 
+# When the blockchain accepts a vertex/block it will publish it to a socket and the decisions contained inside will be published to another.
+# A node will only expose this API if it is started with config flag <api-ipcs-enabled=true>.
+
+# Register a blockchain so it publishes accepted vertices to a Unix domain socket.
+# Usage: publishBlockchain <blockchainID>
+# <blockchainID> is the blockchain that will publish accepted vertices.
+function publishBlockchain {
+  local blockchainID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"ipcs.publishBlockchain",
+    "params": {
+      "blockchainID":"'$blockchainID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/ipcs"
+}
+
+# Deregister a blockchain so that it no longer publishes to a Unix domain socket.
+# Usage: unpublishBlockchain <blockchainID>
+# <blockchainID> is the blockchain that will no longer publish to a Unix domain socket.
+function unpublishBlockchain {
+  local blockchainID="$1"
+  curl -X POST --data '{
+    "jsonrpc":"2.0",
+    "id"     :1,
+    "method" :"ipcs.unpublishBlockchain",
+    "params": {
+      "blockchainID":"'$blockchainID'"
+    }
+  }' -H 'content-type:application/json;' "${AVALANCHE_PUBLIC_API}ext/ipcs"
+}
+
+# Metrics
+# The API allows clients to get statistics about a node’s health and performance.
+
+# To get the node metrics:
+# Usage: metrics
+function metrics {
+  curl --location --request POST "${AVALANCHE_PUBLIC_API}ext/metrics" --data-raw ''
 }
